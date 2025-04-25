@@ -1,0 +1,146 @@
+[0m15:24:41.715402 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x744af2bbb140>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x744af182af90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x744af1496c30>]}
+
+
+============================== 15:24:41.717578 | ece87d77-42a2-40b6-b78a-359c53bbdec3 ==============================
+[0m15:24:41.717578 [info ] [MainThread]: Running with dbt=1.9.3
+[0m15:24:41.717937 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'profiles_dir': '/home/sektor34/.dbt', 'log_path': 'logs', 'version_check': 'True', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'log_format': 'default', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt init', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m15:24:41.723048 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse logging event dictionary. Failed to parse dir field: expected string or bytes-like object, got 'PosixPath'.. Dictionary: {'dir': PosixPath('/home/sektor34/.dbt')}
+[0m15:24:41.723312 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m15:24:59.244139 [debug] [MainThread]: Starter project path: /home/sektor34/myenv/lib/python3.12/site-packages/dbt/include/starter_project
+[0m15:24:59.246124 [info ] [MainThread]: 
+Your new dbt project "custom_postgres" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m15:24:59.246535 [info ] [MainThread]: Setting up your profile.
+[0m15:34:22.514408 [error] [MainThread]: Encountered an error:
+
+[0m15:34:22.516348 [error] [MainThread]: Traceback (most recent call last):
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/cli/requires.py", line 153, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/cli/requires.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/cli/main.py", line 477, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/task/init.py", line 346, in run
+    self.setup_profile(profile_name)
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/task/init.py", line 262, in setup_profile
+    self.create_profile_from_target(adapter, profile_name=profile_name)
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/task/init.py", line 179, in create_profile_from_target
+    self.create_profile_from_profile_template(profile_template, profile_name)
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/task/init.py", line 163, in create_profile_from_profile_template
+    target = self.generate_target_from_input(prompts, initial_target)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/task/init.py", line 129, in generate_target_from_input
+    target[key] = click.prompt(
+                  ^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/click/termui.py", line 164, in prompt
+    value = prompt_func(prompt)
+            ^^^^^^^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/click/termui.py", line 147, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m15:34:22.517101 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": false, "command_wall_clock_time": 580.86523, "process_in_blocks": "0", "process_kernel_time": 0.118864, "process_mem_max_rss": "94172", "process_out_blocks": "88", "process_user_time": 0.837713}
+[0m15:34:22.517416 [debug] [MainThread]: Command `dbt init` failed at 15:34:22.517335 after 580.87 seconds
+[0m15:34:22.517675 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x744af18b6960>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x744af1bb56d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x744af0f22cf0>]}
+[0m15:34:22.517950 [debug] [MainThread]: Flushing usage events
+[0m15:34:23.300570 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:34:34.297264 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7387b44e50a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7387b477f710>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7387b62d5970>]}
+
+
+============================== 15:34:34.299344 | 0b538224-5e16-4faf-b7d0-c3d6e7cdeb5c ==============================
+[0m15:34:34.299344 [info ] [MainThread]: Running with dbt=1.9.3
+[0m15:34:34.299708 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'profiles_dir': '/home/sektor34/.dbt', 'log_path': 'logs', 'debug': 'False', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'log_format': 'default', 'invocation_command': 'dbt init', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m15:34:45.277994 [debug] [MainThread]: Starter project path: /home/sektor34/myenv/lib/python3.12/site-packages/dbt/include/starter_project
+[0m15:34:45.279871 [info ] [MainThread]: 
+Your new dbt project "postgres" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m15:34:45.280139 [info ] [MainThread]: Setting up your profile.
+[0m15:34:58.882557 [error] [MainThread]: Encountered an error:
+
+[0m15:34:58.884538 [error] [MainThread]: Traceback (most recent call last):
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/cli/requires.py", line 153, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/cli/requires.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/cli/main.py", line 477, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/task/init.py", line 346, in run
+    self.setup_profile(profile_name)
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/task/init.py", line 261, in setup_profile
+    adapter = self.ask_for_adapter_choice()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/dbt/task/init.py", line 242, in ask_for_adapter_choice
+    numeric_choice = click.prompt(prompt_msg, type=click.INT)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/click/termui.py", line 164, in prompt
+    value = prompt_func(prompt)
+            ^^^^^^^^^^^^^^^^^^^
+  File "/home/sektor34/myenv/lib/python3.12/site-packages/click/termui.py", line 147, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m15:34:58.885268 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": false, "command_wall_clock_time": 24.651346, "process_in_blocks": "0", "process_kernel_time": 0.132507, "process_mem_max_rss": "88440", "process_out_blocks": "88", "process_user_time": 0.798033}
+[0m15:34:58.885597 [debug] [MainThread]: Command `dbt init` failed at 15:34:58.885527 after 24.65 seconds
+[0m15:34:58.885894 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7387b83b3980>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7387b4495760>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7387b4513050>]}
+[0m15:34:58.886206 [debug] [MainThread]: Flushing usage events
+[0m15:34:59.508211 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:35:01.673570 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78871e2242f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78871c8eab40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78871cc7f500>]}
+
+
+============================== 15:35:01.675603 | eccfefb9-3454-4c2e-a6fe-1c0a791a9087 ==============================
+[0m15:35:01.675603 [info ] [MainThread]: Running with dbt=1.9.3
+[0m15:35:01.675959 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/sektor34/.dbt', 'debug': 'False', 'fail_fast': 'False', 'log_path': 'logs', 'warn_error': 'None', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'log_format': 'default', 'invocation_command': 'dbt init', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m15:35:05.111603 [info ] [MainThread]: A project called custom_postgres already exists here.
+[0m15:35:05.112534 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 3.4941967, "process_in_blocks": "0", "process_kernel_time": 0.104911, "process_mem_max_rss": "88140", "process_out_blocks": "8", "process_user_time": 0.787328}
+[0m15:35:05.112849 [debug] [MainThread]: Command `dbt init` succeeded at 15:35:05.112783 after 3.49 seconds
+[0m15:35:05.113099 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7887206db980>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78871cb00380>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78871c34c890>]}
+[0m15:35:05.113364 [debug] [MainThread]: Flushing usage events
+[0m15:35:05.734804 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m19:15:21.561542 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78624d477230>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78624d17f800>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78624d3b3ef0>]}
+
+
+============================== 19:15:21.563979 | 4718069a-893a-4b43-9f1a-a7deff7e8675 ==============================
+[0m19:15:21.563979 [info ] [MainThread]: Running with dbt=1.9.3
+[0m19:15:21.564350 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'debug': 'False', 'log_path': 'logs', 'profiles_dir': '/home/sektor34/.dbt', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'log_format': 'default', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt clean', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m19:15:21.564749 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /home/sektor34/ELT/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m19:15:21.565353 [debug] [MainThread]: Resource report: {"command_name": "clean", "command_success": false, "command_wall_clock_time": 0.05978115, "process_in_blocks": "8", "process_kernel_time": 0.113687, "process_mem_max_rss": "87896", "process_out_blocks": "16", "process_user_time": 0.774872}
+[0m19:15:21.565670 [debug] [MainThread]: Command `dbt clean` failed at 19:15:21.565596 after 0.06 seconds
+[0m19:15:21.565915 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78624d3b3ef0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78624d9fa7b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78624d1a7bf0>]}
+[0m19:15:21.566168 [debug] [MainThread]: Flushing usage events
+[0m19:15:22.358065 [debug] [MainThread]: An error was encountered while trying to flush usage events
