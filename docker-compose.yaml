@@ -1,10 +1,10 @@
-
+version: '3'
 
 services:
   source_postgres:
-    image: postgres:15
+    image: postgres:latest
     ports:
-      - '5433:5432'
+      - "5433:5432"
     networks:
       - elt_network
     environment:
@@ -13,60 +13,130 @@ services:
       POSTGRES_PASSWORD: secret
     volumes:
       - ./source_db_init/init.sql:/docker-entrypoint-initdb.d/init.sql
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
   destination_postgres:
-    image: postgres:15
+    image: postgres:latest
     ports:
-      - '5434:5432'
-    networks:
-      - elt_network
-    environment:
-      POSTGRES_DB: destination_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret
-    volumes:
-      - ./source_db_init/init.sql:/docker-entrypoint-initdb.d/init.sql
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
-  elt_script:
-    build:
-      context: ./elt
-      dockerfile: Dockerfile
-    command: ['python', 'elt_script.py']
+      - "5434:5432"
     networks:
       - elt_network
     depends_on:
       - source_postgres
-      - destination_postgres
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    environment:
+      POSTGRES_DB: destination_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    # volumes:
+    #   - destination_db_data:/var/lib/postgresql/data
 
+    # elt_script:
+    #   build:
+    #     context: ./elt_script # Directory containing the Dockerfile and elt_script.py
+    #     dockerfile: Dockerfile # Name of the Dockerfile, if it's something other than "Dockerfile", specify here
+    #   command: [ "python", "elt_script.py" ]
+    #   networks:
+    #     - elt_network
+    #   depends_on:
+    #     - destination_postgres
 
-  dbt:
-    image: ghcr.io/dbt-labs/dbt-postgres:1.4.7
-    command: [
-      "run",
-      "--profiles-dir",
-      "/root",
-      "--project-dir",
-      "/dbt",
-    ]
+    # dbt:
+    #   image: ghcr.io/dbt-labs/dbt-postgres:1.4.7
+    #   networks:
+    #     - elt_network
+    #   volumes:
+    #     - ./postgres_transformations:/dbt
+    #     - ~/.dbt:/root
+    #   environment:
+    #     DBT_PROFILE: default
+    #     DBT_TARGET: dev
+
+  postgres:
+    image: postgres:latest
     networks:
       - elt_network
-    volumes:
-      - ./custom_postgres:/dbt
-      - ~/.dbt:/root
-    depends_on:
-      - elt_script
     environment:
-      DBT_PROFILE: custom_postgres
-      DBT_TARGET: dev
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+
+  init-airflow:
+    image: apache/airflow:3.0.0
+    depends_on:
+      - postgres
+    networks:
+      - elt_network
+    environment:
+      - AIRFLOW_HOME=/opt/airflow
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+    command: >
+      bash -c "airflow db migrate && airflow users create \
+        --username airflow --firstname John --lastname Doe \
+        --role Admin --email admin@example.com --password password"
+  
+
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    networks:
+      - elt_network
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./elt_script:/opt/airflow/elt_script
+      - ./postgres_transformations:/opt/dbt
+      - ~/.dbt:/root/.dbt
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - AIRFLOW_HOME=/opt/airflow
+      - LOAD_EX=n
+      - EXECUTOR=Local
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW_CONN_DESTINATION_POSTGRES=postgres://postgres:secret@destination_postgres:5434/destination_db
+      - AIRFLOW__CORE__FERNET_KEY=***************************************
+      - AIRFLOW__WEBSERVER__DEFAULT_USER_USERNAME=airflow
+      - AIRFLOW__WEBSERVER__DEFAULT_USER_PASSWORD=password
+      - AIRFLOW_WWW_USER_USERNAME=airflow
+      - AIRFLOW_WWW_USER_PASSWORD=password
+      - AIRFLOW__WEBSERVER__SECRET_KEY=secret
+    ports:
+      - "8080:8080"
+    command: api-server
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    networks:
+      - elt_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./elt_script:/opt/airflow/elt_script
+      - ./postgres_transformations:/dbt
+      - ~/.dbt:/root/.dbt
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - AIRFLOW_HOME=/opt/airflow
+      - LOAD_EX=n
+      - EXECUTOR=Local
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW_CONN_DESTINATION_POSTGRES=postgres://postgres:secret@destination_postgres:5434/destination_db
+      - AIRFLOW__CORE__FERNET_KEY=**************************************
+      - AIRFLOW__WEBSERVER__SECRET_KEY=secret
+      - AIRFLOW_WWW_USER_USERNAME=airflow
+      - AIRFLOW_WWW_USER_PASSWORD=password
+    command: scheduler
 
 networks:
   elt_network:
     driver: bridge
+
+volumes:
+  destination_db_data:
